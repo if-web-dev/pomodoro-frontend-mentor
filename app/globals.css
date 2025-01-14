@@ -19,3 +19,103 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.timer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #161932;
+}
+
+.timer svg {
+  transform: rotate(-90deg);
+}
+
+.circle-bg, .circle {
+  fill: none;
+  stroke-width: 20;
+}
+
+.circle-bg {
+  stroke: #161932;
+}
+
+.circle {
+  stroke: #F87070;
+  stroke-dasharray: 440; /* 2 * Math.PI * 70 (r = 70) */
+  stroke-dashoffset: 440;
+}
+
+.time {
+  font-size: 100px;
+  font-weight: bold;
+}
+
+.time-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.timer-ring {
+box-shadow: /*30px 30px 60px rgba(22, 25, 50, 1),*/
+            30px 30px 60px rgba(28, 20, 41, 1),
+           /*-30px -30px 60px rgba(86, 94, 174, 0.4);*/
+           -30px -30px 60px rgba(81, 90, 162, 0.3);
+           
+background: linear-gradient(135deg, rgba(28, 20, 41, 1), rgba(81, 90, 162, 0.3));
+
+border-radius: 50%;             
+}
+
+
+
+/* styles.css */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.circular-progress {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.intern-circle{
+  position: relative;
+  width: 93%;
+  height: 93%;
+  border-radius: 50%;
+  background: #161932;
+}
+
+input {
+  height: 20px;
+  width: 140px;
+  padding-left: 20px;
+  font-size: 18px;
+  background-color: #EFF1FA;
+  border-radius: 10px;
+  border: none;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.settings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centre l'élément horizontalement et verticalement */
+}
+
