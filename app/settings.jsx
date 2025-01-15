@@ -94,7 +94,7 @@ export default function Settings({ isVisible, setIsVisible, onSubmit }) {
           <h3 className="text-[13px] uppercase tracking-[5px] pt-8">
             Time (minutes)
           </h3>
-          <div className="flex gap-4 py-4">
+          <div className="flex gap-4 py-4 justify-between">
             {timeSettings.map((setting) => (
               <div key={setting.id}>
                 <label htmlFor={setting.id} className="text-[12px] py-2">

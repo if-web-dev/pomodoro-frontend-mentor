@@ -1,27 +1,48 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import Timer from "./timer.jsx";
 import Settings from "./settings.jsx";
 import clsx from "clsx";
 
+// Utility: Format seconds into MM:SS
+const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  return `${String(minutes).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
+};
+
+// Utility: Calculate progress bar background
+const calculateProgressBarStyle = (remainingTime, duration, color) => {
+  const percentage = ((duration - remainingTime) / duration) * 100;
+  return `conic-gradient(${color} ${percentage * 3.6}deg, #161932 ${percentage * 3.6}deg)`;
+};
 
 export default function Home() {
 
   const [isVisible, setIsVisible] = useState(false);
-  const [formValue, setFormValue] = useState({ time: 25, color:"#F87070", font: "default label"});
+  const [formValue, setFormValue] = useState({
+    time: {
+      pomodoro: 25,
+      shortBreak: 5,
+      longBreak: 15
+    },
+    color: "#F87070",
+    font: "default label"
+  }
+  );
   const [status, setStatus] = useState("start");
-  const [remainingTime, setRemainingTime] = useState(formValue.time * 60);
   const [timerMode, setTimerMode] = useState("pomodoro");
+  const [remainingTime, setRemainingTime] = useState(formValue["time"][timerMode] * 60);
   const intervalRef = useRef(null);
   const progressBarRef = useRef(null);
-  const duration = formValue.time * 60;
+  const duration = useMemo(() => formValue["time"][timerMode] * 60, [formValue, timerMode]);
 
-  // Format seconds into MM:SS
-  const formatTime = useCallback((seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    return `${String(minutes).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
-  }, []);
+  // Initialise the timer when timerMode is changed and the form submitted
+  useEffect(() => {
+    stopTimer();
+    setRemainingTime(duration)
+    setStatus("start");
+  }, [timerMode, formValue])
 
   // Stop the timer
   const stopTimer = useCallback(() => {
@@ -49,13 +70,17 @@ export default function Home() {
   // Update progress bar
   useEffect(() => {
     if (progressBarRef.current) {
-      const percentage = ((duration - remainingTime) / duration) * 100;
-      progressBarRef.current.style.background = `conic-gradient(
-        ${formValue.color} ${percentage * 3.6}deg, 
-        #161932 ${percentage * 3.6}deg 
-      )`;
+      progressBarRef.current.style.background = calculateProgressBarStyle(
+        remainingTime,
+        duration,
+        formValue.color
+      );
     }
-  }, [remainingTime, duration]);
+  }, [duration, remainingTime]);
+
+  useEffect(() => {
+    progressBarRef.current.style.background = "#161932";
+  }, [timerMode])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -66,7 +91,7 @@ export default function Home() {
   const handleFormSubmit = (value) => {
     stopTimer();
     setFormValue(value);
-    setRemainingTime(value.time * 60);
+    setRemainingTime(formValue["time"][timerMode] * 60);
     setStatus("start");
   };
 
@@ -93,8 +118,6 @@ export default function Home() {
 
   const sessionTypes = ["pomodoro", "shortBreak", "longBreak"];
 
-  console.log(formValue["time"][timerMode])
-  console.log(timerMode)
 
   return (
     <div className="h-full flex flex-col justify-center items-center font-bold relative">
@@ -109,14 +132,23 @@ export default function Home() {
             className={clsx(
               "rounded-[26.5px] py-3 px-6",
               {
-                [`bg-[${formValue.color}] text-[#] `]: timerMode === session, // Applique la couleur active
+                [`bg-[${formValue.color}] transition duration-300 ease-in-out text-[#]  `]: timerMode === session, // Applique la couleur active
               }
             )}
           >
-            <span className={clsx("text-[14px] text-[#D7E0FF] hover:brightness-125",
-              {[`brightness-[30%]`]: timerMode === session,}
+            <span className={clsx("text-[14px] font-light text-[#D7E0FF] hover:brightness-125",
+              { [`brightness-[30%] transition duration-300 ease-in-out`]: timerMode === session, }
             )}>
-              {session}
+              {
+                session === "pomodoro"
+                  ? "pomodoro"
+                  : session === "longBreak"
+                    ? "long break"
+                    : session === "shortBreak"
+                      ? "short break"
+                      : null
+              }
+
             </span>
           </button>
         ))}
@@ -131,7 +163,7 @@ export default function Home() {
         timerMode={timerMode}
       />
       <div className="flex justify-center my-14">
-        <svg onClick={() => { setIsVisible(!isVisible) }} xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path fill="#D7E0FF" d="M26.965 17.682l-2.927-2.317c.055-.448.097-.903.097-1.365 0-.462-.042-.917-.097-1.365l2.934-2.317a.702.702 0 00.167-.896l-2.775-4.851a.683.683 0 00-.847-.301l-3.454 1.407a10.506 10.506 0 00-2.345-1.379l-.52-3.71A.716.716 0 0016.503 0h-5.55a.703.703 0 00-.687.588l-.52 3.71c-.847.357-1.63.819-2.345 1.379L3.947 4.27a.691.691 0 00-.847.301L.325 9.422a.705.705 0 00.167.896l2.927 2.317c-.055.448-.097.903-.097 1.365 0 .462.042.917.097 1.365L.492 17.682a.702.702 0 00-.167.896L3.1 23.429a.683.683 0 00.847.301L7.4 22.323a10.506 10.506 0 002.345 1.379l.52 3.71c.056.329.34.588.687.588h5.55a.703.703 0 00.687-.588l.52-3.71c.847-.357 1.631-.819 2.346-1.379l3.454 1.407c.313.119.673 0 .847-.301l2.775-4.851a.705.705 0 00-.167-.896zM13.73 18.9c-2.685 0-4.857-2.191-4.857-4.9 0-2.709 2.172-4.9 4.857-4.9 2.684 0 4.856 2.191 4.856 4.9 0 2.71-2.172 4.9-4.856 4.9z" className="hover:brightness-[120%]" /></svg>
+        <svg onClick={() => { setIsVisible(!isVisible) }} xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path fill="#D7E0FF" d="M26.965 17.682l-2.927-2.317c.055-.448.097-.903.097-1.365 0-.462-.042-.917-.097-1.365l2.934-2.317a.702.702 0 00.167-.896l-2.775-4.851a.683.683 0 00-.847-.301l-3.454 1.407a10.506 10.506 0 00-2.345-1.379l-.52-3.71A.716.716 0 0016.503 0h-5.55a.703.703 0 00-.687.588l-.52 3.71c-.847.357-1.63.819-2.345 1.379L3.947 4.27a.691.691 0 00-.847.301L.325 9.422a.705.705 0 00.167.896l2.927 2.317c-.055.448-.097.903-.097 1.365 0 .462.042.917.097 1.365L.492 17.682a.702.702 0 00-.167.896L3.1 23.429a.683.683 0 00.847.301L7.4 22.323a10.506 10.506 0 002.345 1.379l.52 3.71c.056.329.34.588.687.588h5.55a.703.703 0 00.687-.588l.52-3.71c.847-.357 1.631-.819 2.346-1.379l3.454 1.407c.313.119.673 0 .847-.301l2.775-4.851a.705.705 0 00-.167-.896zM13.73 18.9c-2.685 0-4.857-2.191-4.857-4.9 0-2.709 2.172-4.9 4.857-4.9 2.684 0 4.856 2.191 4.856 4.9 0 2.71-2.172 4.9-4.856 4.9z" className="hover:brightness-[120%] transition duration-300 ease-in-out" /></svg>
       </div>
       <Settings
         isVisible={isVisible}

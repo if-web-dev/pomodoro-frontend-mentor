@@ -14,14 +14,14 @@ const Space = Space_Mono({
   weight: "400",
 });
 
-export default function Timer({ 
-  formatTime, 
-  formValue, 
-  handleButtonClick, 
-  status, 
-  progressBarRef, 
+export default function Timer({
+  formatTime,
+  formValue,
+  handleButtonClick,
+  status,
+  progressBarRef,
   remainingTime,
-  timerMode }) {
+}) {
 
   const getButtonLabel = () => {
     switch (status) {
@@ -52,7 +52,7 @@ export default function Timer({
                 onClick={handleButtonClick}
                 className={clsx(
                   "tracking-[15px]",
-                  `hover:text-[${formValue.color}]`, // Cela peut être problématique, voir note ci-dessous
+                  `hover:text-[${formValue.color}] transition duration-300 ease-in-out`, // Cela peut être problématique, voir note ci-dessous
                   formValue.font === "Space" && Space.className, // Ajoute Space.className si condition vraie
                   formValue.font === "Roboto" && Roboto.className // Ajoute Roboto.className si condition vraie
                 )}
