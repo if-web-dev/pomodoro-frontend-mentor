@@ -29,7 +29,7 @@ Users should be able to:
 
 ### Screenshot
 
-![Pomodoro screenshot](./public/screenshot.png)
+![Pomodoro screenshot](./public/images/screenshot.png)
 
 
 ### Links
