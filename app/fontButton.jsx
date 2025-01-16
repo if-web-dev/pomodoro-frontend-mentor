@@ -1,11 +1,14 @@
 "use client";
 
+import clsx from "clsx";
+
 const FontButton = ({ button, activeFont, setActiveFont }) => (
   <div
     key={button.id}
-    className={`relative cursor-pointer rounded-full w-[40px] h-[40px] flex justify-center items-center bg-[#EFF1FA] ${
-      activeFont === button.id ? "ring-2 ring-blue-500" : ""
-    }`}
+    className={clsx(
+      "relative cursor-pointer rounded-full w-[40px] h-[40px] flex justify-center items-center bg-[#EFF1FA]",
+      { "ring-2 ring-blue-950 text-white bg-blue-950 transition duration-300 ease-in-out": activeFont === button.id }
+    )}
   >
     <input
       type="radio"

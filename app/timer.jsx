@@ -26,42 +26,43 @@ export default function Timer({
   const getButtonLabel = () => {
     switch (status) {
       case "pause":
-        return "PAUSE";
+        return " PAUSE";
       case "restart":
-        return "RESTART";
+        return " RESTART";
       default:
-        return "START";
+        return " START";
     }
   };
 
   return (
     <div>
-      <div className="w-[410px] h-[410px] mx-auto mt-10 p-6 rounded-full timer-ring">
+      <div className="sm:w-[410px] sm:h-[410px] w-[350px] h-[350px] mx-auto mt-10 p-6 rounded-full timer-ring">
         <div className="timer w-full rounded-full z-50 border-[13px] border-solid border-[#161932]">
-          {/* <div className="w-full h-full">*/}
           <div ref={progressBarRef} className="circular-progress">
             <div className="intern-circle"></div>
-            <div className="time-container flex flex-col justify-center items-center">
+            <div className="time-container flex flex-col justify-center items-center gap-0">
               <div className={clsx(
-                "time tracking-[5px]",
-                { "tracking-[-10px]": formValue.font === "Space" },
-                formValue.font === "Space" && Space.className, // Ajoute la classe si la condition est vraie
-                formValue.font === "Roboto" && Roboto.className
-              )}>{formatTime(remainingTime)}</div>
+                "time sm:text-[100px] text-[70px]",
+                { "tracking-[5px] mr-[-5px]": formValue.font !== "Space" && formValue.font !== "Roboto" },
+                { "tracking-[-5px]": formValue.font === "Space" },
+                { "tracking-[5px]": formValue.font === "Roboto" },
+                { [Space.className]: formValue.font === "Space" },
+                { [Roboto.className]: formValue.font === "Space" }
+              )}>{formatTime(remainingTime)}
+              </div>
               <button
                 onClick={handleButtonClick}
                 className={clsx(
-                  "tracking-[15px]",
-                  `hover:text-[${formValue.color}] transition duration-300 ease-in-out`, // Cela peut être problématique, voir note ci-dessous
-                  formValue.font === "Space" && Space.className, // Ajoute Space.className si condition vraie
-                  formValue.font === "Roboto" && Roboto.className // Ajoute Roboto.className si condition vraie
+                  "tracking-[15px] sm:text-[16px] text-[14px] text-center mr-[-15px]",
+                  `hover:text-[${formValue.color}] transition duration-300 ease-in-out`,
+                  { [Space.className]: formValue.font === "Space" },
+                  { [Roboto.className]: formValue.font === "Roboto" }
                 )}
               >
                 {getButtonLabel()}
               </button>
             </div>
           </div>
-          {/*</div>*/}
         </div>
       </div>
     </div>

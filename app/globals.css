@@ -27,27 +27,7 @@ body {
   background: #161932;
 }
 
-.timer svg {
-  transform: rotate(-90deg);
-}
-
-.circle-bg, .circle {
-  fill: none;
-  stroke-width: 20;
-}
-
-.circle-bg {
-  stroke: #161932;
-}
-
-.circle {
-  stroke: #F87070;
-  stroke-dasharray: 440; /* 2 * Math.PI * 70 (r = 70) */
-  stroke-dashoffset: 440;
-}
-
 .time {
-  font-size: 100px;
   font-weight: bold;
 }
 
@@ -59,28 +39,10 @@ body {
 }
 
 .timer-ring {
-box-shadow: /*30px 30px 60px rgba(22, 25, 50, 1),*/
-            30px 30px 60px rgba(28, 20, 41, 1),
-           /*-30px -30px 60px rgba(86, 94, 174, 0.4);*/
-           -30px -30px 60px rgba(81, 90, 162, 0.3);
-           
+box-shadow: 30px 30px 60px rgba(28, 20, 41, 1),
+            -30px -30px 60px rgba(81, 90, 162, 0.3);    
 background: linear-gradient(135deg, rgba(28, 20, 41, 1), rgba(81, 90, 162, 0.3));
-
 border-radius: 50%;             
-}
-
-
-
-/* styles.css */
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  min-height: 100vh;
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
 }
 
 .circular-progress {
@@ -90,7 +52,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background 0.5s ease-in-out;
 }
 
 .intern-circle{
@@ -101,18 +62,6 @@ body {
   background: #161932;
 }
 
-input {
-  height: 20px;
-  width: 140px;
-  padding-left: 20px;
-  font-size: 18px;
-  background-color: #EFF1FA;
-  border-radius: 10px;
-  border: none;
-  padding-top: 25px;
-  padding-bottom: 25px;
-}
-
 .settings {
   position: absolute;
   top: 50%;
@@ -120,3 +69,35 @@ input {
   transform: translate(-50%, -50%); /* Centre l'élément horizontalement et verticalement */
 }
 
+.custom-number-input {
+  position: relative;
+  width: 140px;
+}
+
+.custom-number-input .controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 7px;
+}
+
+.custom-number-input button {
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.custom-number-input button svg {
+  width: 12px;
+  height: 12px;
+  fill: #333;
+  transition: fill 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

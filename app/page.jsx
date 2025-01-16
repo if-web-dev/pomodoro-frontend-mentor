@@ -118,7 +118,6 @@ export default function Home() {
 
   const sessionTypes = ["pomodoro", "shortBreak", "longBreak"];
 
-
   return (
     <div className="h-full flex flex-col justify-center items-center font-bold relative">
       <div className="my-10">
@@ -132,7 +131,7 @@ export default function Home() {
             className={clsx(
               "rounded-[26.5px] py-3 px-6",
               {
-                [`bg-[${formValue.color}] transition duration-300 ease-in-out text-[#]  `]: timerMode === session, // Applique la couleur active
+                [`bg-[${formValue.color}] transition duration-300 ease-in-out text-[#]`]: timerMode === session, // Applique la couleur active
               }
             )}
           >

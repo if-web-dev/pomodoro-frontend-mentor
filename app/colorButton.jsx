@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { FaCheck } from "react-icons/fa6";
 
 const ColorButton = ({ button, activeColor, setActiveColor }) => (
@@ -14,9 +15,13 @@ const ColorButton = ({ button, activeColor, setActiveColor }) => (
       value={button.id}
       checked={activeColor === button.id}
       onChange={() => setActiveColor(button.id)}
-      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
     />
-    {activeColor === button.id && <FaCheck className="text-white" />}
+    <FaCheck
+      className={clsx(
+        "text-slate-900 transition-opacity duration-250 ease-in-out",
+        { "opacity-100": activeColor === button.id, "opacity-0": activeColor !== button.id }
+      )} />
   </div>
 );
 
