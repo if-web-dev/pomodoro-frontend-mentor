@@ -59,4 +59,3 @@ I learned how to use hooks like useState, useEffect, and useCallback. I also lea
 
 - Website - [@IF-WEB-DEV](https://www.if-web-dev.com)
 - Frontend Mentor - [@if-web-dev](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
